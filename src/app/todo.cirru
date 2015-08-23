@@ -1,7 +1,12 @@
 
 var
   React $ require :react
+  actions $ require :../actions
   ({}~ connect) $ require :react-redux
+  ({}~ bindActionCreators) $ require :redux
+
+var
+  TodoList $ React.createFactory $ require :./todo-list
 
 var
   div $ React.createFactory :div
@@ -10,9 +15,9 @@ var todoComponent $ React.createClass $ {}
   :displayName :app-todo
 
   :render $ \ ()
-    console.log this.props
-
-    div null :todo
+    TodoList $ React.__spread
+      {} (:todo this.props.todo)
+      bindActionCreators actions this.props.dispatch
 
 var select $ \ (state)
   {}

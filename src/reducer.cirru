@@ -8,9 +8,10 @@ var todoApp $ \ (state action)
   = state $ or state initialTodoState
   case action.type
     :add
-      var newText action.data
+      var newId action.data.id
+      var newText action.data.text
       state.push $ Immutable.fromJS $ {}
-        :id (shortid.generate)
+        :id newId
         :done false
         :text newText
     :remove
@@ -22,6 +23,13 @@ var todoApp $ \ (state action)
       state.map $ \ (item)
         cond (is (item.get :id) toggleId)
           item.update :done $ \ (mode) (not mode)
+          , item
+    :update
+      var updateId action.data.id
+      var newText action.data.text
+      state.map $ \ (item)
+        cond (is (item.get :id) updateId)
+          item.set :text newText
           , item
     else state
 

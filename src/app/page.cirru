@@ -1,6 +1,7 @@
 
 var
   React $ require :react
+  Immutable $ require :immutable
   ({}~ DevTools DebugPanel LogMonitor) $ require :redux-devtools/lib/react
   ({}~ Provider connect) $ require :react-redux
 
@@ -13,6 +14,10 @@ var
   ProviderFac $ React.createFactory Provider
   DebugPanelFac $ React.createFactory DebugPanel
 
+var show $ \ (data)
+  var wrapped $ Immutable.fromJS $ or data ({})
+  return (wrapped.toJS)
+
 = module.exports $ React.createClass $ {}
   :displayName :app-page
 
@@ -24,3 +29,4 @@ var
         React.createElement DevTools $ {}
           :store store
           :monitor LogMonitor
+          :select show
