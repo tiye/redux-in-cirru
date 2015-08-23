@@ -1,6 +1,7 @@
 
 var
   fs $ require :fs
+  path $ require :path
   webpack $ require :webpack
 
 = module.exports $ object
@@ -21,7 +22,8 @@ var
 
   :module $ object
     :loaders $ array
-      object (:test /\.cirru$) (:loader :cirru-script) (:ignore /node_modules)
+      object (:test /\.cirru$) (:loader :react-hot!cirru-script) (:ignore /node_modules)
+        :include $ path.join __dirname :src
       object (:test /\.css$) (:loader :style!css)
 
   :plugins $ array

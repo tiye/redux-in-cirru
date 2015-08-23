@@ -21,6 +21,9 @@ var
   :onUpdate $ \ (id text)
     this.props.update id text
 
+  :onToggle $ \ (id)
+    this.props.toggle id
+
   :renderBody $ \ ()
     this.props.todo.map $ \\ (item)
       var onClick $ \\ ()
@@ -29,18 +32,19 @@ var
         this.onRemove $ item.get :id
       var onUpdate $ \\ (event)
         this.onUpdate (item.get :id) event.target.value
+      var onToggle $ \\ ()
+        this.onToggle (item.get :id)
 
-      div ({} (:className :todo-item) (:key $ item.get :id))
-        input $ {} (:type :checkbox) (:value $ item.get :done)
+      div ({} (:className ":todo-item line") (:key $ item.get :id))
+        input $ {} (:type :checkbox) (:checked $ item.get :done) (:onClick onToggle)
         input $ {} (:value $ item.get :text) (:key $ item.get :id)
           :onChange onUpdate
-        div ({} (:onClick onClick)) :Toggle
-        div ({} (:onClick onRemove)) :Remove
+        div ({} (:className ":button is-danger") (:onClick onRemove)) :Remove
 
   :render $ \ ()
     div ({} (:className :todo-list))
       div ({} (:className :todo-header))
-        div ({} (:className :todo-add) (:onClick this.onAdd)) :Add
+        div ({} (:className ":todo-add button is-attract") (:onClick this.onAdd)) :Add
       div ({} (:className :todo-body))
         this.renderBody
       div ({} (:className :todo-footer))
